@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 # In[9]:
 
@@ -8,7 +8,6 @@
 import panel as pn 
 import param
 import os
-import fsspec
 import tempfile
 import fractions
 
@@ -450,7 +449,7 @@ class Converter(param.Parameterized):
         # Process
         self.normalized_decimal_text.object     = f"Normalized Decimal: <div style='{self.style_output1}'>{self.decimal_normalized} {self.case_decimal}</div>"
         self.exponent_text.object               = f"Final Exponent: <div style='{self.style_output1}'>{self.exp} {self.case_exponent}</div>"
-        self.e_prime_text.object                = f"E-Prime: <div style='{self.style_output1}'>{self.e_prime_dec} → {self.e_prime_bits}</div>"
+        self.e_prime_text.object                = f"E-Prime: <div style='{self.style_output1}'>{self.e_prime_dec} -> {self.e_prime_bits}</div>"
         self.sign_text.object                   = f"Sign Bit: <div style='{self.style_output8}'>{self.sign}</div>"
         self.combination_text.object            = f"Combination Bits: <div style='{self.style_output4}'>{self.combo_bits}</div>"
         self.exponent_continuation_text.object  = f"Exponent Bits: <div style='{self.style_output5}'>{self.e_prime_bits[2:]}</div>"
@@ -479,7 +478,7 @@ class Converter(param.Parameterized):
                 f"Process",
                 f"Normalized Decimal    : {self.decimal_normalized} {self.case_decimal}",
                 f"Final Exponent        : {self.exp} {self.case_exponent}",
-                f"E-Prime               : {self.e_prime_dec} → {self.e_prime_bits}",
+                f"E-Prime               : {self.e_prime_dec} -> {self.e_prime_bits}",
                 f"",
                 f"Output",
                 f"Sign Bit              : {self.sign}",
