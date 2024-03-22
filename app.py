@@ -10,7 +10,6 @@ import param
 import os
 import tempfile
 import fractions
-import math
 
 #set extension
 pn.extension('tabulator')
@@ -152,6 +151,21 @@ class Converter(param.Parameterized):
     # buttons
     compute_btn = pn.widgets.Button(name='Compute', button_type='primary')
     download_btn = pn.widgets.FileDownload(label='Export', button_type='primary', disabled=True)
+
+    # Apply custom CSS styles to the button
+    download_btn.css_classes = ['custom-button']
+
+    # Define custom CSS styles
+    custom_css = """
+    .custom-button {
+        background-color: #AAC8A7; 
+        border-radius: 5px;       /* Set the border radius to 10 pixels */
+        height: 34px;              /* Set the height of the button */
+        width: 150px;              /* Set the width of the button */
+    }
+    """
+
+    pn.extension(raw_css=[custom_css])
 
     # input validation prompts
     validate_decimal_prompt     = pn.pane.HTML("<font color='red'> </font>")
@@ -450,7 +464,7 @@ class Converter(param.Parameterized):
         # Process
         self.normalized_decimal_text.object     = f"Normalized Decimal: <div style='{self.style_output1}'>{self.decimal_normalized} {self.case_decimal}</div>"
         self.exponent_text.object               = f"Final Exponent: <div style='{self.style_output1}'>{self.exp} {self.case_exponent}</div>"
-        self.e_prime_text.object                = f"E-Prime: <div style='{self.style_output1}'>{self.e_prime_dec} → {self.e_prime_bits}</div>"
+        self.e_prime_text.object                = f"E-Prime: <div style='{self.style_output1}'>{self.e_prime_dec} -> {self.e_prime_bits}</div>"
         self.sign_text.object                   = f"Sign Bit: <div style='{self.style_output8}'>{self.sign}</div>"
         self.combination_text.object            = f"Combination Bits: <div style='{self.style_output4}'>{self.combo_bits}</div>"
         self.exponent_continuation_text.object  = f"Exponent Bits: <div style='{self.style_output5}'>{self.e_prime_bits[2:]}</div>"
@@ -495,33 +509,30 @@ class Converter(param.Parameterized):
             # Path to downloads folder
             with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
                 temp_file.write('\n'.join(contents))
-                temp_file.flush()  # Ensure all data is written to the file
+                temp_file.flush() # Ensure all data is written to the file
                 temp_file_path = temp_file.name
 
             # Rename the temporary file to the desired name
             desired_file_path = os.path.join(os.path.dirname(temp_file_path), "exported_content.txt")
-            
-            # Check if the destination file already exists and remove it if it does
-            if os.path.exists(desired_file_path):
-                os.remove(desired_file_path)
-
             os.rename(temp_file_path, desired_file_path)
-
+    
+            pn.state.notifications.success('Export successful! Check your temporary files.', duration=5000)
+    
             # Update the downloadable file with the generated file
             self.download_btn.filename = "exported_content.txt"
             self.download_btn.file = desired_file_path
-
+    
         except Exception as e:
             print(e)
             pn.state.notifications.error('An error occurred while exporting the file.', duration=5000)
-            self.normalized_decimal_text.object = str(e)
+            self.normalized_decimal_text.object = f"{str(e)}"
 
 # In[16]:
 
 
 converter = Converter()
 converter.compute_btn.on_click(converter.process_input)
-converter.export_to_text_file(None)
+converter.download_btn.callback = converter.export_to_text_file
 converter_container = pn.Column(
     pn.Row(
         pn.Column(
