@@ -494,23 +494,26 @@ class Converter(param.Parameterized):
             # Path to downloads folder
             with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
                 temp_file.write('\n'.join(contents))
-                temp_file.flush() # Ensure all data is written to the file
+                temp_file.flush()  # Ensure all data is written to the file
                 temp_file_path = temp_file.name
 
             # Rename the temporary file to the desired name
             desired_file_path = os.path.join(os.path.dirname(temp_file_path), "exported_content.txt")
+            
+            # Check if the destination file already exists and remove it if it does
+            if os.path.exists(desired_file_path):
+                os.remove(desired_file_path)
+
             os.rename(temp_file_path, desired_file_path)
-    
-            #pn.state.notifications.success('Export successful! Check your temporary files.', duration=5000)
-    
+
             # Update the downloadable file with the generated file
             self.download_btn.filename = "exported_content.txt"
             self.download_btn.file = desired_file_path
-    
+
         except Exception as e:
             print(e)
             pn.state.notifications.error('An error occurred while exporting the file.', duration=5000)
-            self.normalized_decimal_text.object = f"{str(e)}"
+            self.normalized_decimal_text.object = str(e)
 
 # In[16]:
 
