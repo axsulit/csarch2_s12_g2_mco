@@ -450,7 +450,7 @@ class Converter(param.Parameterized):
         # Process
         self.normalized_decimal_text.object     = f"Normalized Decimal: <div style='{self.style_output1}'>{self.decimal_normalized} {self.case_decimal}</div>"
         self.exponent_text.object               = f"Final Exponent: <div style='{self.style_output1}'>{self.exp} {self.case_exponent}</div>"
-        self.e_prime_text.object                = f"E-Prime: <div style='{self.style_output1}'>{self.e_prime_dec} -> {self.e_prime_bits}</div>"
+        self.e_prime_text.object                = f"E-Prime: <div style='{self.style_output1}'>{self.e_prime_dec} → {self.e_prime_bits}</div>"
         self.sign_text.object                   = f"Sign Bit: <div style='{self.style_output8}'>{self.sign}</div>"
         self.combination_text.object            = f"Combination Bits: <div style='{self.style_output4}'>{self.combo_bits}</div>"
         self.exponent_continuation_text.object  = f"Exponent Bits: <div style='{self.style_output5}'>{self.e_prime_bits[2:]}</div>"
