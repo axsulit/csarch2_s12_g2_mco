@@ -10,6 +10,7 @@ import param
 import os
 import fsspec
 import tempfile
+import fractions
 
 #set extension
 pn.extension('tabulator')
@@ -218,12 +219,50 @@ class Converter(param.Parameterized):
             self.validate_decimal_prompt.object = "<font color='red'>Field is empty. Please enter a decimal number.</font>"
             return
         
+        # check if fraction
+        if '/' in self.decimal.value:
+            try:
+                # Parse the fraction
+                fraction = fractions.Fraction(self.decimal.value)
+                
+                # Calculate decimal value
+                decimal_value = fraction.numerator / fraction.denominator
+            
+                # Convert decimal value to string
+                self.decimal.value = str(decimal_value)
+                self.validate_decimal_prompt.object = "<font color='red'> </font>"
+                
+            except ValueError:
+                self.validate_decimal_prompt.object = "<font color='red'>Invalid input. Please enter a valid decimal number.</font>"
+            except ZeroDivisionError:
+                self.decimal.value = str("NaN")
+                
+        # check if square root
+        if self.decimal.value.startswith("sqrt(") and self.decimal.value.endswith(")"):
+            try:
+                # Extract the expression inside sqrt
+                inner_expression = self.decimal.value[5:-1]
+
+                # Evaluate the expression inside sqrt
+                sqrt_value = math.sqrt(float(inner_expression))
+
+                # Update the input value with the square root result
+                self.decimal.value = str(sqrt_value)
+                self.validate_decimal_prompt.object = "<font color='red'> </font>"
+
+            except ValueError:
+                if '-' in self.decimal.value:
+                    self.decimal.value = str("NaN")
+                else:
+                    self.validate_decimal_prompt.object = "<font color='red'>Invalid input. Please enter a valid decimal number.</font>"
+        
         # Validate decimal input
         try:
             float(self.decimal.value)
             self.validate_decimal_prompt.object = "<font color='red'> </font>"
         except ValueError:
             self.validate_decimal_prompt.object = "<font color='red'>Invalid input. Please enter a valid decimal number.</font>"
+        
             
     # check if input for exponent is valid
     # @param.depends('exponent.value', watch=True)
@@ -540,10 +579,10 @@ template = pn.template.FastListTemplate(
    ],
     main=[main],
     **DEFAULT_PARAMS,
-).servable(title="IEEE-754 Decimal-32 Floating-Point Converter")
+)#.servable(title="IEEE-754 Decimal-32 Floating-Point Converter")
 
 # Serve the app
-#pn.serve(template, port=5006)
+pn.serve(template, port=5006)
 
 
 # IEEE-754 Decimal-32 floating-point converter (including all special cases)
