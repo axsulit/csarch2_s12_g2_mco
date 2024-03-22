@@ -10,6 +10,7 @@ import param
 import os
 import tempfile
 import fractions
+import math
 
 #set extension
 pn.extension('tabulator')
