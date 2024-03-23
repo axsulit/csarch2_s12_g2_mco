@@ -162,6 +162,9 @@ class Converter(param.Parameterized):
         background-color: #AAC8A7;
         border-radius: 5px;
         cursor: pointer;
+        @media (min-width: 760px) {
+            width: 100% !important;
+        }
     }
     """
     # Append the stylesheet
