@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# In[9]:
-
-
 # Install the required modules
 import panel as pn 
 import param
@@ -20,18 +17,12 @@ pn.extension(notifications=True)
 
 # # Helper Functions
 
-# In[10]:
-
-
 # compute for e-prime
 def compute_eprime(exponent):
     e = int(exponent) + 101
     e_prime = bin(e)[2:].zfill(8)
 
     return e, e_prime
-
-
-# In[11]:
 
 
 # convert decimal in str format to 4-bit binary
@@ -46,9 +37,6 @@ def str_to_binary(string):
     return ''.join(binary_list)
 
 
-# In[12]:
-
-
 # compute for combination bits
 def compute_combination_bits(e_prime, msd):
     combination = ""
@@ -61,9 +49,6 @@ def compute_combination_bits(e_prime, msd):
         combination = "11" + exp_bin[:2] + msd_bin[-1]
 
     return combination
-
-
-# In[13]:
 
 
 # convert binary to dp bcd
@@ -82,9 +67,6 @@ def bin_to_dpbcd(string):
     y = m
     
     return ''.join(map(str, [p, q, r, s, t, u, v, w, x, y]))
-
-
-# In[14]:
 
 
 # round decimal to nearest ties to even
@@ -123,9 +105,6 @@ def round_ties_to_even(decimal_str, remaining):
 
 
 # # Dashboard Set up
-
-# In[15]:
-
 
 class Converter(param.Parameterized):
     # variables
@@ -535,9 +514,7 @@ class Converter(param.Parameterized):
                 os.remove(desired_file_path)
             
             os.rename(temp_file_path, desired_file_path)
-    
-            # pn.state.notifications.success('Export successful! Check your temporary files.', duration=5000)
-    
+
             # Update the downloadable file with the generated file
             self.download_btn.filename = "exported_content.txt"
             self.download_btn.file = desired_file_path
@@ -550,8 +527,6 @@ class Converter(param.Parameterized):
     @param.depends('download_btn._clicks', watch=True)
     def export_notification(event):
         pn.state.notifications.success('Export successful! Check your downloads folder.', duration=5000)
-
-# In[16]:
 
 
 converter = Converter()
