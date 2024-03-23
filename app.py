@@ -10,6 +10,7 @@ import param
 import os
 import tempfile
 import fractions
+import math
 
 #set extension
 pn.extension('tabulator')
@@ -142,6 +143,7 @@ class Converter(param.Parameterized):
     hresult = ""              # final answer in hex
     case_decimal = ""         # zero / NaN
     case_exponent = ""        # denormalized / infinity
+    txt_rounding_method = "None"  # rounding method
     
     # input fields
     decimal         = pn.widgets.TextInput(name='Decimal', placeholder='Enter a number here...')
@@ -150,7 +152,27 @@ class Converter(param.Parameterized):
 
     # buttons
     compute_btn = pn.widgets.Button(name='Compute', button_type='primary')
+    
+
+    # stylesheet for download button
+    style_sheet_download = """
+    .bk-btn a {
+        display: inline-block;
+        width: 439px !important;
+        height: 34px !important;
+        background-color: #AAC8A7;
+        border-radius: 5px;
+        cursor: pointer;
+        @media (min-width: 400px) {
+            width: 100% !important;
+        }
+    }
+    """
+    # Append the stylesheet
+    pn.widgets.FileDownload.stylesheets.append(style_sheet_download)
+
     download_btn = pn.widgets.FileDownload(label='Export', button_type='primary', disabled=True)
+    
 
     # input validation prompts
     validate_decimal_prompt     = pn.pane.HTML("<font color='red'> </font>")
@@ -207,6 +229,9 @@ class Converter(param.Parameterized):
         # Check if input contains decimal point
         if '.' in self.decimal_unnormalized:
             digit_count = len(self.decimal_unnormalized.replace('.', ''))
+
+        if digit_count <= 7:
+            self.txt_rounding_method = "None"
 
         self.rounding_method.disabled = digit_count <= 7
 
@@ -399,6 +424,7 @@ class Converter(param.Parameterized):
         
         # zero extend if decimal digits < 7
         if len(self.decimal_normalized) <= 7:
+            self.txt_rounding_method = "None"
             zeros_needed = 7 - len(self.decimal_normalized)
             self.decimal_normalized = self.decimal_normalized.zfill(zeros_needed + len(self.decimal_normalized))
             if int(self.sign) == 1:
@@ -408,20 +434,24 @@ class Converter(param.Parameterized):
         elif len(self.decimal_normalized) > 7:
             decimal_str = str(self.decimal_normalized) 
             if select == "Truncate":
+                self.txt_rounding_method = "Truncate"
                 self.decimal_normalized = decimal_str[:7]
                 if int(self.sign) == 1:
                     self.decimal_normalized = "-" + self.decimal_normalized
             elif select== "Round up": 
+                self.txt_rounding_method = "Round up"
                 if int(self.sign) == 0: # positive
                     self.decimal_normalized = decimal_str[:6] + str(int(decimal_str[6])+1)
                 else: # negative
                     self.decimal_normalized = "-" + decimal_str[:7]
             elif select == "Round down":
+                self.txt_rounding_method = "Round down"
                 if int(self.sign) == 0: # positive
                     self.decimal_normalized = decimal_str[:7]
                 else: # negative
                     self.decimal_normalized = "-" + decimal_str[:6] + str(int(decimal_str[6])+1)
             elif select == "Round to nearest ties to even":
+                self.txt_rounding_method = "Round to nearest ties to even"
                 number_str, remaining = decimal_str[:6], decimal_str[6:]
                 print(decimal_str[:6])
                 print(decimal_str[6:])
@@ -449,7 +479,7 @@ class Converter(param.Parameterized):
         # Process
         self.normalized_decimal_text.object     = f"Normalized Decimal: <div style='{self.style_output1}'>{self.decimal_normalized} {self.case_decimal}</div>"
         self.exponent_text.object               = f"Final Exponent: <div style='{self.style_output1}'>{self.exp} {self.case_exponent}</div>"
-        self.e_prime_text.object                = f"E-Prime: <div style='{self.style_output1}'>{self.e_prime_dec} -> {self.e_prime_bits}</div>"
+        self.e_prime_text.object                = f"E-Prime: <div style='{self.style_output1}'>{self.e_prime_dec} → {self.e_prime_bits}</div>"
         self.sign_text.object                   = f"Sign Bit: <div style='{self.style_output8}'>{self.sign}</div>"
         self.combination_text.object            = f"Combination Bits: <div style='{self.style_output4}'>{self.combo_bits}</div>"
         self.exponent_continuation_text.object  = f"Exponent Bits: <div style='{self.style_output5}'>{self.e_prime_bits[2:]}</div>"
@@ -473,7 +503,7 @@ class Converter(param.Parameterized):
                 f"Inputs",
                 f"Decimal               : {self.decimal_normalized}",
                 f"Exponent (Base-10)    : {self.exp}",
-                f"Rounding Method       : {self.rounding_method.value}",
+                f"Rounding Method       : {self.txt_rounding_method}",
                 f"",
                 f"Process",
                 f"Normalized Decimal    : {self.decimal_normalized} {self.case_decimal}",
@@ -499,9 +529,14 @@ class Converter(param.Parameterized):
 
             # Rename the temporary file to the desired name
             desired_file_path = os.path.join(os.path.dirname(temp_file_path), "exported_content.txt")
+            
+            # Check if the destination file already exists and remove it if it does
+            if os.path.exists(desired_file_path):
+                os.remove(desired_file_path)
+            
             os.rename(temp_file_path, desired_file_path)
     
-            #pn.state.notifications.success('Export successful! Check your temporary files.', duration=5000)
+            # pn.state.notifications.success('Export successful! Check your temporary files.', duration=5000)
     
             # Update the downloadable file with the generated file
             self.download_btn.filename = "exported_content.txt"
@@ -509,8 +544,12 @@ class Converter(param.Parameterized):
     
         except Exception as e:
             print(e)
-            pn.state.notifications.error('An error occurred while exporting the file.', duration=5000)
+            pn.state.notifications.error('An error occurred while creating the temporary file.', duration=5000)
             self.normalized_decimal_text.object = f"{str(e)}"
+
+    @param.depends('download_btn._clicks', watch=True)
+    def export_notification(event):
+        pn.state.notifications.success('Export successful! Check your downloads folder.', duration=5000)
 
 # In[16]:
 
@@ -527,6 +566,11 @@ converter_container = pn.Column(
             converter.exponent,
             converter.validate_exponent_prompt,
             converter.rounding_method,
+            pn.layout.Spacer(height=30),
+            converter.compute_btn,
+            pn.layout.Spacer(height=15),
+            converter.download_btn,
+            pn.layout.Spacer(height=15),
             min_width=145
         ),
         pn.Column(
@@ -549,10 +593,6 @@ converter_container = pn.Column(
             min_width=145
         ),
     ),
-    pn.Row(
-        converter.compute_btn,
-        converter.download_btn,
-    )
 )
 
 # Define default template parameters
