@@ -6,6 +6,10 @@
 - Anne Sulit
 - Ysobella Torio
 
+## Project Demo
+The demo of this project can be viewed at:
+[https://www.youtube.com/watch?v=W-Sz1JrahSI](https://www.youtube.com/watch?v=W-Sz1JrahSI)
+
 ## Project Setup
 This project can be viewed in two ways: the deployed version, or the manual version.
 
