@@ -277,7 +277,7 @@ class Converter(param.Parameterized):
         
         # Check if value is empty or contains only whitespace
         if not self.exponent.value.strip():  
-            self.validate_exponent_prompt.object = "<font color='red'>Field is empty. Please enter a whole exponent.</font>"
+            self.validate_exponent_prompt.object = "<font color='red'>Invalid exponent. Please enter a whole exponent.</font>"
             return
         
         # Validate exponent input
