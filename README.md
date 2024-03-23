@@ -19,12 +19,12 @@ To manually run the converter on your local machine, follow the listed steps.
 #### 1. Clone the Repository
 If you haven't already, clone the repository to your local machine:
 ```sh
-git clone https://github.com/axsulit/csarch2_mco.git
+git clone https://github.com/axsulit/csarch2_s12_g2_mco.git
 ```
 #### 2. Navigate to the Project Directory
 Navigate to the directory where the `app.py` and `requirements.txt` files are located:
 ```sh
-cd csarch2_mco
+cd csarch2_s12_g2_mco
 ```
 #### 3. Install the Required Modules
 Run the following command to install the required modules listed in `requirements.txt`:
