@@ -11,11 +11,11 @@ This Python-based Web Application is the implementation of the IEEE Decimal-32 F
 ## Project Demo
 The demo of this project can be viewed at:
 [https://www.youtube.com/watch?v=W-Sz1JrahSI](https://www.youtube.com/watch?v=W-Sz1JrahSI) <br />
-The test cases shown in the video demonstration can also be viewed at:
+Should the Test Cases PDF file be inaccessible, it can also be viewed at:
 [https://docs.google.com/document/d/1l-W6BRmybOtKOZAp3kiCDSN5Y4C5ZJhcXF241vWTT_Q/edit?usp=sharing](https://docs.google.com/document/d/1l-W6BRmybOtKOZAp3kiCDSN5Y4C5ZJhcXF241vWTT_Q/edit?usp=sharing)
 
 ## Analysis Write-up
-The team's analysis of the source code implementation can be viewed at:
+Should the PDF file of the team's analysis of the source code implementation be inaccessible, it can also be viewed at:
 [https://docs.google.com/document/d/1jsjPieas7wX1a3c-QGYnH5SEBntgLr5TcQnRdqGdjlk/edit?usp=sharing](https://docs.google.com/document/d/1jsjPieas7wX1a3c-QGYnH5SEBntgLr5TcQnRdqGdjlk/edit?usp=sharing)
 
 ## Project Setup
