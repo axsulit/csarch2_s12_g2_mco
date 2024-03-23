@@ -611,10 +611,12 @@ converter.display_blank_result()
 template = pn.template.FastListTemplate(
     title="IEEE-754 Decimal-32 Floating-Point Converter",
     sidebar=[
-        pn.pane.Markdown("## Reports"),
-        pn.pane.Markdown("### Developed by:"),
-        pn.pane.Markdown("CSARCH2 S12 Group 2"),
-        pn.pane.Markdown("Amelia Abenoja, Zhoe Aeris Gon Gon, Harold Mojica, Anne Gabrielle Sulit, Ysobella Torio"),
+        pn.pane.Markdown("## S12 Group 2"),
+        pn.pane.Markdown("#### Amelia Abenoja"),
+        pn.pane.Markdown("#### Zhoe Aeris Gon Gon"),
+        pn.pane.Markdown("#### Harold Mojica"),
+        pn.pane.Markdown("#### Anne Gabrielle Sulit"),
+        pn.pane.Markdown("#### Ysobella Torio")
    ],
     main=[main],
     **DEFAULT_PARAMS,
@@ -622,13 +624,3 @@ template = pn.template.FastListTemplate(
 
 # Serve the app
 pn.serve(template, port=5006)
-
-
-# IEEE-754 Decimal-32 floating-point converter (including all special cases)
-# 
-# Input: Decimal and base-10 (i.e., 127.0x105) – should be able to handle more than 7
-# digits properly (provide an option for the user to choose rounding method). Also, should
-# support special cases (i.e., NaN).
-# 
-# Output: (1) binary output with space between sections (2) its hexadecimal equivalent (3)
-# with the option to output in the text file.
