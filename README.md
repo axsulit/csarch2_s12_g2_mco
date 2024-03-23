@@ -1,4 +1,6 @@
 # Decimal32 Floating Point Converter
+This Python-based Web Application is the implementation of the IEEE Decimal-32 Floating Point standard, in which the input is a decimal, and the output is its binary and hex equivalent. The project is able to handle all normal and special cases. This project uses the HoloViz Panels library for its GUI, which is eventually deployed on Hugging Face.
+
 ## CSARCH2 S12 Group 2
 - Amelia Abenoja
 - Zhoe Gon Gon
@@ -8,7 +10,13 @@
 
 ## Project Demo
 The demo of this project can be viewed at:
-[https://www.youtube.com/watch?v=W-Sz1JrahSI](https://www.youtube.com/watch?v=W-Sz1JrahSI)
+[https://www.youtube.com/watch?v=W-Sz1JrahSI](https://www.youtube.com/watch?v=W-Sz1JrahSI) <br />
+Should the Test Cases PDF file be inaccessible, it can also be viewed at:
+[https://docs.google.com/document/d/1l-W6BRmybOtKOZAp3kiCDSN5Y4C5ZJhcXF241vWTT_Q/edit?usp=sharing](https://docs.google.com/document/d/1l-W6BRmybOtKOZAp3kiCDSN5Y4C5ZJhcXF241vWTT_Q/edit?usp=sharing)
+
+## Analysis Write-up
+Should the PDF file of the team's analysis of the source code implementation be inaccessible, it can also be viewed at:
+[https://docs.google.com/document/d/1jsjPieas7wX1a3c-QGYnH5SEBntgLr5TcQnRdqGdjlk/edit?usp=sharing](https://docs.google.com/document/d/1jsjPieas7wX1a3c-QGYnH5SEBntgLr5TcQnRdqGdjlk/edit?usp=sharing)
 
 ## Project Setup
 This project can be viewed in two ways: the deployed version, or the manual version.
