@@ -9,6 +9,8 @@
 ## Project Demo
 The demo of this project can be viewed at:
 [https://www.youtube.com/watch?v=W-Sz1JrahSI](https://www.youtube.com/watch?v=W-Sz1JrahSI)
+The test cases shown in the video demonstration can also be viewed at:
+[https://docs.google.com/document/d/1l-W6BRmybOtKOZAp3kiCDSN5Y4C5ZJhcXF241vWTT_Q/edit?usp=sharing](https://docs.google.com/document/d/1l-W6BRmybOtKOZAp3kiCDSN5Y4C5ZJhcXF241vWTT_Q/edit?usp=sharing)
 
 ## Project Setup
 This project can be viewed in two ways: the deployed version, or the manual version.
