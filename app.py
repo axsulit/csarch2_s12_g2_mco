@@ -143,6 +143,7 @@ class Converter(param.Parameterized):
     hresult = ""              # final answer in hex
     case_decimal = ""         # zero / NaN
     case_exponent = ""        # denormalized / infinity
+    txt_rounding_method = "None"  # rounding method
     
     # input fields
     decimal         = pn.widgets.TextInput(name='Decimal', placeholder='Enter a number here...')
@@ -228,6 +229,9 @@ class Converter(param.Parameterized):
         # Check if input contains decimal point
         if '.' in self.decimal_unnormalized:
             digit_count = len(self.decimal_unnormalized.replace('.', ''))
+
+        if digit_count <= 7:
+            self.txt_rounding_method = "None"
 
         self.rounding_method.disabled = digit_count <= 7
 
@@ -420,6 +424,7 @@ class Converter(param.Parameterized):
         
         # zero extend if decimal digits < 7
         if len(self.decimal_normalized) <= 7:
+            self.txt_rounding_method = "None"
             zeros_needed = 7 - len(self.decimal_normalized)
             self.decimal_normalized = self.decimal_normalized.zfill(zeros_needed + len(self.decimal_normalized))
             if int(self.sign) == 1:
@@ -429,20 +434,24 @@ class Converter(param.Parameterized):
         elif len(self.decimal_normalized) > 7:
             decimal_str = str(self.decimal_normalized) 
             if select == "Truncate":
+                self.txt_rounding_method = "Truncate"
                 self.decimal_normalized = decimal_str[:7]
                 if int(self.sign) == 1:
                     self.decimal_normalized = "-" + self.decimal_normalized
             elif select== "Round up": 
+                self.txt_rounding_method = "Round up"
                 if int(self.sign) == 0: # positive
                     self.decimal_normalized = decimal_str[:6] + str(int(decimal_str[6])+1)
                 else: # negative
                     self.decimal_normalized = "-" + decimal_str[:7]
             elif select == "Round down":
+                self.txt_rounding_method = "Round down"
                 if int(self.sign) == 0: # positive
                     self.decimal_normalized = decimal_str[:7]
                 else: # negative
                     self.decimal_normalized = "-" + decimal_str[:6] + str(int(decimal_str[6])+1)
             elif select == "Round to nearest ties to even":
+                self.txt_rounding_method = "Round to nearest ties to even"
                 number_str, remaining = decimal_str[:6], decimal_str[6:]
                 print(decimal_str[:6])
                 print(decimal_str[6:])
@@ -494,7 +503,7 @@ class Converter(param.Parameterized):
                 f"Inputs",
                 f"Decimal               : {self.decimal_normalized}",
                 f"Exponent (Base-10)    : {self.exp}",
-                f"Rounding Method       : {self.rounding_method.value}",
+                f"Rounding Method       : {self.txt_rounding_method}",
                 f"",
                 f"Process",
                 f"Normalized Decimal    : {self.decimal_normalized} {self.case_decimal}",
@@ -561,6 +570,7 @@ converter_container = pn.Column(
             converter.compute_btn,
             pn.layout.Spacer(height=15),
             converter.download_btn,
+            pn.layout.Spacer(height=15),
             min_width=145
         ),
         pn.Column(
