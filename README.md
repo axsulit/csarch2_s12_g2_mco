@@ -14,6 +14,10 @@ The demo of this project can be viewed at:
 The test cases shown in the video demonstration can also be viewed at:
 [https://docs.google.com/document/d/1l-W6BRmybOtKOZAp3kiCDSN5Y4C5ZJhcXF241vWTT_Q/edit?usp=sharing](https://docs.google.com/document/d/1l-W6BRmybOtKOZAp3kiCDSN5Y4C5ZJhcXF241vWTT_Q/edit?usp=sharing)
 
+## Analysis Write-up
+The team's analysis of the source code implementation can be viewed at:
+[https://docs.google.com/document/d/1jsjPieas7wX1a3c-QGYnH5SEBntgLr5TcQnRdqGdjlk/edit?usp=sharing](https://docs.google.com/document/d/1jsjPieas7wX1a3c-QGYnH5SEBntgLr5TcQnRdqGdjlk/edit?usp=sharing)
+
 ## Project Setup
 This project can be viewed in two ways: the deployed version, or the manual version.
 
